@@ -7,13 +7,23 @@ class Paddle(Turtle):
         self.shape('square')
         self.pu()
         self.color('white')
-        self.rt(90)
-        self.shapesize(1,10)
+        self.lt(90)
+        self.shapesize(1,8)
+        self.speed('fastest')
         if side == 'left':
             self.setx(-550)
-            self.showturtle()
         elif side == 'right':
             self.setx(550)
-            self.showturtle()
+        self.showturtle()
+        self.speed('normal')
+        
+
+    def up(self):
+        self.fd(10)
+        self.screen.update()
+
+    def down(self):
+        self.bk(10)
+        self.screen.update()
 
     
