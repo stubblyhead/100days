@@ -1,5 +1,5 @@
 COLORS = ["red", "orange", "yellow", "green", "blue", "purple"]
-STARTING_MOVE_DISTANCE = 5
+STARTING_MOVE_DISTANCE = 25
 MOVE_INCREMENT = 10
 
 from random import randint, choice
@@ -13,7 +13,7 @@ class Car(Turtle):
         self.pu()
         self.color(choice(COLORS))
         self.setx(310)
-        self.sety(randint(-260,260))
+        self.sety(randint(-250,250))
         self.seth(180)
         self.speed = STARTING_MOVE_DISTANCE
 
@@ -26,7 +26,7 @@ class CarManager:
         self.cars = []
     
     def spawn_car(self):
-        if randint(1,100) <= 20:
+        if randint(1,100) <= 50:
             self.cars.append(Car())
 
     def move_cars(self):
