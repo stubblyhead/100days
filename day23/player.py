@@ -1,5 +1,5 @@
 STARTING_POSITION = (0, -280)
-MOVE_DISTANCE = 10
+MOVE_DISTANCE = 20
 FINISH_LINE_Y = 280
 from turtle import Turtle
 
@@ -12,5 +12,9 @@ class Player:
         self.p.goto(STARTING_POSITION)
     
     def move_turtle(self):
-        self.fd(10)
+        self.p.fd(MOVE_DISTANCE)
+        self.p.screen.update()
+
+    def to_start(self):
+        self.p.goto(STARTING_POSITION)
 
