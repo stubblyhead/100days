@@ -15,6 +15,7 @@ screen.setup(width=600, height=600)
 screen.tracer(0)
 screen.listen()
 screen.onkey(player.move_turtle, 'W')
+screen.onkey(player.move_turtle, 'w')
 
 
 for i in range(-300,310,10):
@@ -28,13 +29,19 @@ for i in range(-300,310,10):
     grid_lines.fd(600)
 
 
-game_is_on = True
-while game_is_on:
+
+while True:
     time.sleep(0.1)
-    screen.update()
     traffic.spawn_car()
     traffic.move_cars()
+    if traffic.check_collision(player.p.pos()):
+        break
     if player.p.ycor() >= 280:
         score.update_level()
         traffic.level_up()
         player.to_start()
+    screen.update()
+
+score.game_over()
+
+screen.mainloop()

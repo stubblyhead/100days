@@ -34,8 +34,35 @@ class CarManager:
         for c in self.cars:
             c.fd(c.speed)
 
+    def prune(self):
+        for c in self.cars:
+            if c.xcor() <= -350:
+                self.cars.remove(c)
+
     def level_up(self):
         for c in self.cars:
             c.speed_up()
-            self.cur_speed += MOVE_INCREMENT
+        self.cur_speed += MOVE_INCREMENT
+
+    def check_collision(self, position):
+        # turtle x range 9 to -9 from center
+        # turtle y range 16 to -8 from center
+        # car x range 20 to -20 from center
+        # car y range 10 to -10 from center
+        T_X_MIN = -9  # turtle doesn't move left and right so we can make these constants
+        T_X_MAX = 9
+        t_y_min = position[1] - 8  # turtle goes from 8 below center...
+        t_y_max = position[1] + 16 # to 16 above center
+
+        
+        for c in self.cars:
+            c_x, c_y = c.pos()
+            if -29 > c_x or 29 < c_x:  # car is far enough from center that we can skip
+                next
+            elif t_y_min < c_y < t_y_max:
+                return True # current car overlaps turtle's position
+            else:
+                return False # checked all the cars; no collsions                
+
+
 
