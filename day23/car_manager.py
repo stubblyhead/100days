@@ -61,8 +61,7 @@ class CarManager:
                 next
             elif t_y_min < c_y < t_y_max:
                 return True # current car overlaps turtle's position
-            else:
-                return False # checked all the cars; no collsions                
+        return False # checked all the cars; no collsions                
 
 
 
