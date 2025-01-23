@@ -1,9 +1,15 @@
+import turtle
 import pandas
 
-data = pandas.read_csv('weather_data.csv')
+state_data = pandas.read_csv('50_states.csv')
+state_dict = {}
+for s in state_data.state:
+    state_dict[s] = (state_data.x[state_data.state == s], state_data.y[state_data.state == s])
 
-print(data.temp.max())
+print(state_dict)
 
-mon_temp = data[data.day == 'Monday'].temp
+screen = turtle.Screen()
+screen.title('us states game')
+screen.bgpic('blank_states_img.gif')
 
-print((mon_temp*9/5+32))
+screen.exitonclick()
