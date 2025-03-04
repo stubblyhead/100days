@@ -1,5 +1,7 @@
 import tkinter
 from tkinter import messagebox
+import random
+import pyperclip
 
 datafile = open('totallynotpasswords.txt','a')
 
@@ -7,6 +9,30 @@ datafile = open('totallynotpasswords.txt','a')
 
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
+def generate_password():
+    num_letters = random.randint(10,12)
+    num_digits = random.randint(2,4)
+    num_symbols = random.randint(2,4)
+
+    uc = [ chr(i) for i in range(65,65+26) ]
+    lc = [ chr(i) for i in range(97,97+26) ]
+    letters = uc + lc
+    digits = [ str(i) for i in range(0,11) ]
+    symbols = [ chr(i) for i in range(33,48) ]
+
+    pw = []
+    for _ in range(num_letters):
+        pw.append(random.choice(letters))
+    for _ in range(num_digits):
+        pw.append(random.choice(digits))
+    for _ in range(num_symbols):
+        pw.append(random.choice(symbols))
+
+    random.shuffle(pw)
+    pw = ''.join(pw)
+    password_entry.delete(0,tkinter.END)
+    password_entry.insert(0, pw)
+    pyperclip.copy(pw)
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def add_password():
@@ -53,7 +79,7 @@ password_lbl = tkinter.Label(text='Password:')
 password_lbl.grid(row=3,column=0)
 password_entry = tkinter.Entry(width=18)
 password_entry.grid(row=3,column=1)
-password_btn = tkinter.Button(text='Generate Password')
+password_btn = tkinter.Button(text='Generate Password',command=generate_password)
 password_btn.grid(row=3,column=2)
 
 add_btn = tkinter.Button(text='Add',width=36,command=add_password)
