@@ -1,4 +1,5 @@
 import tkinter
+from tkinter import messagebox
 
 datafile = open('totallynotpasswords.txt','a')
 
@@ -12,12 +13,19 @@ def add_password():
     website = website_entry.get()
     username = username_entry.get()
     password = password_entry.get()
-    with open('totallynotpasswords.txt','a') as datafile:
-        datafile.write(f'{website} | {username} | {password}\n')
+    if '' in [website, username, password]:
+        messagebox.showwarning(title='Oopsy', message='Please ensure all fields are filled out')
+    else:
+        confirm = messagebox.askokcancel(title='Adding entry', message=f'Okay to add the following?\n' \
+                                         f'username: {username}\npassword: {password}\nwebsite: {website}')
+        if confirm:
+            with open('totallynotpasswords.txt','a') as datafile:
+                datafile.write(f'{website} | {username} | {password}\n')
 
-    website_entry.delete(0,tkinter.END)
-    username_entry.delete(0,tkinter.END)
-    password_entry.delete(0,tkinter.END)
+            website_entry.delete(0,tkinter.END)
+            username_entry.delete(0,tkinter.END)
+            password_entry.delete(0,tkinter.END)
+            website_entry.focus()
 # ---------------------------- UI SETUP ------------------------------- #
 window = tkinter.Tk()
 window.title('Password Manager')
