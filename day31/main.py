@@ -45,8 +45,11 @@ def search_password():
                 entry = current_data[website]
         except FileNotFoundError:
             return  # no entries, so nothing to return
-        print(entry)
-        # messagebox.showinfo(title=website, message= f'Username: {}')
+        except KeyError as error_message:
+            messagebox.showwarning(title='Entry not found', message=f'No entry found for {error_message}')
+        else:
+            messagebox.showinfo(title=website, message= f'Username: {entry["username"]}\nPassword sent to clipboard')
+            pyperclip.copy(entry['password'])
     else:
         return  # can't search for nothing
 
