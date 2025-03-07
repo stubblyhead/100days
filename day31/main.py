@@ -1,6 +1,7 @@
 import tkinter
 from tkinter import messagebox
 import random
+import json
 import pyperclip
 
 datafile = open('totallynotpasswords.txt','a')
@@ -42,16 +43,20 @@ def add_password():
     if '' in [website, username, password]:
         messagebox.showwarning(title='Oopsy', message='Please ensure all fields are filled out')
     else:
-        confirm = messagebox.askokcancel(title='Adding entry', message=f'Okay to add the following?\n' \
-                                         f'username: {username}\npassword: {password}\nwebsite: {website}')
-        if confirm:
-            with open('totallynotpasswords.txt','a') as datafile:
-                datafile.write(f'{website} | {username} | {password}\n')
-
-            website_entry.delete(0,tkinter.END)
-            username_entry.delete(0,tkinter.END)
-            password_entry.delete(0,tkinter.END)
-            website_entry.focus()
+        new_entry = { website: { 'username': username, 'password': password } }
+        try:
+            with open('data.json','r') as datafile:
+                current_data = json.load(datafile)
+        except FileNotFoundError:
+            current_data = {}
+        with open('data.json','w') as datafile:
+            current_data.update(new_entry)
+            json.dump(current_data, datafile, indent=2)
+ 
+        website_entry.delete(0,tkinter.END)
+        username_entry.delete(0,tkinter.END)
+        password_entry.delete(0,tkinter.END)
+        website_entry.focus()
 # ---------------------------- UI SETUP ------------------------------- #
 window = tkinter.Tk()
 window.title('Password Manager')
@@ -65,9 +70,12 @@ canvas.grid(row=0,column=1)
 
 website_lbl = tkinter.Label(text='Website:')
 website_lbl.grid(row=1,column=0)
-website_entry = tkinter.Entry(width=35)
-website_entry.grid(row=1,column=1,columnspan=2)
+website_entry = tkinter.Entry(width=18)
+website_entry.grid(row=1,column=1)
 website_entry.focus()
+
+search_button = tkinter.Button(text='Search', width=15)
+search_button.grid(row=1,column=2)
 
 username_lbl = tkinter.Label(text='Email/username:')
 username_lbl.grid(row=2,column=0)
@@ -79,7 +87,7 @@ password_lbl = tkinter.Label(text='Password:')
 password_lbl.grid(row=3,column=0)
 password_entry = tkinter.Entry(width=18)
 password_entry.grid(row=3,column=1)
-password_btn = tkinter.Button(text='Generate Password',command=generate_password)
+password_btn = tkinter.Button(text='Generate Password', width=15, command=generate_password)
 password_btn.grid(row=3,column=2)
 
 add_btn = tkinter.Button(text='Add',width=36,command=add_password)
