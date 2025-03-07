@@ -35,6 +35,22 @@ def generate_password():
     password_entry.insert(0, pw)
     pyperclip.copy(pw)
 
+# ---------------------------- SEARCH PASSWORD ----------------------------- #
+def search_password():
+    website = website_entry.get()
+    if website:
+        try:
+            with open('data.json','r') as datafile:
+                current_data = json.load(datafile)
+                entry = current_data[website]
+        except FileNotFoundError:
+            return  # no entries, so nothing to return
+        print(entry)
+        # messagebox.showinfo(title=website, message= f'Username: {}')
+    else:
+        return  # can't search for nothing
+
+
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def add_password():
     website = website_entry.get()
@@ -74,7 +90,7 @@ website_entry = tkinter.Entry(width=18)
 website_entry.grid(row=1,column=1)
 website_entry.focus()
 
-search_button = tkinter.Button(text='Search', width=15)
+search_button = tkinter.Button(text='Search', width=15, command=search_password)
 search_button.grid(row=1,column=2)
 
 username_lbl = tkinter.Label(text='Email/username:')
