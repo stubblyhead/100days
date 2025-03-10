@@ -14,8 +14,8 @@ with open('data/french_words.csv') as data:
     (front_hdg, back_hdg) = words.pop(0)
 
 def new_word():
-    # global heading_txt
-    # global word_txt
+    right_btn['state'] = 'disabled'
+    wrong_btn['state'] = 'disabled'
     (q_word, a_word) = random.choice(words)
     flashcard.itemconfig(heading_txt, text=front_hdg)
     flashcard.itemconfig(word_txt, text=q_word)
@@ -24,6 +24,8 @@ def new_word():
 def flip_word(hdg,txt):
     flashcard.itemconfig(heading_txt, text=hdg)
     flashcard.itemconfig(word_txt, text=txt)
+    right_btn['state'] = 'normal'
+    wrong_btn['state'] = 'normal'
 
 def right_click():
     global right_count
