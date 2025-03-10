@@ -1,6 +1,6 @@
 import tkinter
 import random
-import time
+
 
 BACKGROUND_COLOR = "#B1DDC6"
 HEADING_FONT = ('Arial',40,'italic')
@@ -8,14 +8,23 @@ WORD_FONT = ('Arial',60,'bold')
 
 right_count = 0
 wrong_count = 0
+q_word = ''
+a_word = ''
 
-with open('data/french_words.csv') as data:
-    words = [ l.strip().split(',') for l in data.readlines() ]
-    (front_hdg, back_hdg) = words.pop(0)
+try:
+    with open('data/words_to_learn.csv') as data:
+        words = [ l.strip().split(',') for l in data.readlines() ]
+        (front_hdg, back_hdg) = words.pop(0)
+except FileNotFoundError:
+    with open('data/french_words.csv') as data:
+        words = [ l.strip().split(',') for l in data.readlines() ]
+        (front_hdg, back_hdg) = words.pop(0)
+
 
 def new_word():
     right_btn['state'] = 'disabled'
     wrong_btn['state'] = 'disabled'
+    global q_word, a_word   
     (q_word, a_word) = random.choice(words)
     flashcard.itemconfig(heading_txt, text=front_hdg)
     flashcard.itemconfig(word_txt, text=q_word)
@@ -30,6 +39,7 @@ def flip_word(hdg,txt):
 def right_click():
     global right_count
     right_count += 1
+    words.remove([q_word,a_word])
     new_word()
 
 def wrong_click():
@@ -65,3 +75,8 @@ new_word()
 
 
 window.mainloop()
+with open('data/words_to_learn.csv','w') as data:
+    data.write('French,English\n')
+    for w in words:
+        data.write(f'{w[0]},{w[1]}\n')
+
