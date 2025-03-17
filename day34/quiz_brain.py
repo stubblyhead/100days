@@ -11,7 +11,7 @@ class QuizBrain:
     def still_has_questions(self) -> bool:
         return self.question_number < len(self.question_list)
 
-    def next_question(self) -> str:    
+    def next_question(self) -> str:        
         self.current_question = self.question_list[self.question_number]
         self.current_question.text = html.unescape(self.current_question.text)
         self.question_number += 1
@@ -23,9 +23,9 @@ class QuizBrain:
         correct_answer = self.current_question.answer
         if user_answer.lower() == correct_answer.lower():
             self.score += 1
-            print("You got it right!")
+            return True
         else:
-            print("That's wrong.")
+            return False
 
-        print(f"Your current score is: {self.score}/{self.question_number}")
-        print("\n")
+        # print(f"Your current score is: {self.score}/{self.question_number}")
+        # print("\n")
