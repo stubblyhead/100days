@@ -5,6 +5,7 @@ import json
 with open('totallynotpasswords.txt') as f:
     APP_ID, API_KEY = f.readline().strip().split()
     SHEETY_KEY = f.readline().strip()
+    SHEETY_TOKEN = f.readline().strip()
 
 headers = {
     'x-app-id': APP_ID,
@@ -28,7 +29,7 @@ now = datetime.datetime.today()
 date = now.strftime('%m/%d/%Y')
 time = now.strftime('%H:%M')
 
-headers = {'Content-Type': 'application/json'}
+headers = {'Content-Type': 'application/json', 'Authorization': f'Bearer {SHEETY_TOKEN}'}
 for e in exercises:
     name,duration,cals = e
     hr = duration // 60
