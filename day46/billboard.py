@@ -3,10 +3,12 @@ import requests
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import os
+import re
 
 with open('totallynotpasswords.txt') as f:
     SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET = f.read().strip().split(':')
 SPOTIPY_REDIRECT_URI = 'https://example.com'
+PAREN_PATTERN = r'\(.*\)'
 
 os.environ['SPOTIPY_CLIENT_ID'] = SPOTIPY_CLIENT_ID
 os.environ['SPOTIPY_CLIENT_SECRET'] = SPOTIPY_CLIENT_SECRET
@@ -35,7 +37,8 @@ user = sp.current_user()['id']
 sp_tracks = []
 for s in songs:
     short_title = s[0].split('/')[0] # choose first track from a double-A side single
-    short_title = short_title.split('(')[0] # sometimes chart includes parentheticals not included in spotify titles
+    short_title = re.sub(PAREN_PATTERN,'',short_title).strip()
+    #short_title = short_title.split('(')[0] # sometimes chart includes parentheticals not included in spotify titles
     short_artist = s[1].split()[0] # first word of artist name is usually enough to nail down the right track
     trackresults = sp.search(q=f'track:{short_title} artist:{short_artist}',type='track')
     try:
