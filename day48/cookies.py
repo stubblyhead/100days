@@ -20,7 +20,7 @@ big_cookie = drv.find_element(By.ID, 'bigCookie')
 
 
 while time.time() < big_timeout:
-    short_timeout = time.time() + 5
+    short_timeout = time.time() + 15
     while time.time() < short_timeout:
         big_cookie.click()
     # cookie_count = int(drv.find_element(By.ID, 'cookies').text.split()[0])
@@ -36,8 +36,10 @@ while time.time() < big_timeout:
         building_list.reverse()
     for b in building_list:
         b[1].click()
-
-cps = drv.find_element(By.ID, 'cookiesPerSecond').text
+try:
+    cps = drv.find_element(By.ID, 'cookiesPerSecond').text
+except Exception:
+    cps = drv.find_element(By.ID, 'cookiesPerSecond').text
 print(f'{cps.split(': ')[1]} cookies/second')
 
     # focus on buildings for now, upgrade prices are kind of obscured
